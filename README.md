@@ -9,8 +9,10 @@ mouse-to-pan for your own `<img>` tags.
 
 1. Include the CSS and JS in your HTML document:
 
-        <link rel="stylesheet" type="text/css" href="zoomable.css">
-        <script type="text/javascript" src="zoomable.js"></script>
+   ```html
+   <link rel="stylesheet" type="text/css" href="zoomable.css">
+   <script type="text/javascript" src="zoomable.js"></script>
+   ```
 
    Where you choose to include it is up to you; the code does not care.
 
