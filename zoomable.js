@@ -36,8 +36,11 @@
       document.body.appendChild(state.zoomed);
       document.body.appendChild(state.screen);
 
-      state.zoomed.setAttribute("width",  state.zoomed.naturalWidth);
-      state.zoomed.setAttribute("height", state.zoomed.naturalHeight);
+      var naturalW = state.zoomed.naturalWidth,
+          naturalH = state.zoomed.naturalHeight;
+
+      state.zoomed.setAttribute("width",  naturalW);
+      state.zoomed.setAttribute("height", naturalH);
 
       // Convert current mouse position within viewport to coordinates within
       // the zoomed image (includes padding).  This essentially calculates how
@@ -64,7 +67,7 @@
 
       // …and then on any subsequent mouse movement, unless we're smaller
       // than the viewport.
-      if (zoomW > screenW || zoomH > screenH)
+      if (naturalW > screenW || naturalH > screenH)
         window.addEventListener('mousemove', state.pan, false);
     }
     else {
