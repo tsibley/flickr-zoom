@@ -3,7 +3,7 @@
 
   function initialState() {
     var screen = document.createElement('div');
-    screen.classList.add('zoomable-screen');
+    screen.classList.add('flickr-zoom-screen');
 
     return {
       screen: screen,
@@ -16,10 +16,10 @@
 
   window.addEventListener('click', function(clickEvent) {
 
-    // Ignore clicks not on img.zoomable elements
+    // Ignore clicks not on img.flickr-zoom elements
     var target = clickEvent.target;
     if (target.nodeName.toLowerCase() !== "img") return;
-    if (!target.classList.contains("zoomable"))  return;
+    if (!target.classList.contains("flickr-zoom"))  return;
 
     clickEvent.preventDefault();
 

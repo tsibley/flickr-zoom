@@ -1,4 +1,4 @@
-div.zoomable-screen {
+div.flickr-zoom-screen {
   z-index: 10000;
   position: fixed;
   top: 0;
@@ -9,11 +9,11 @@ div.zoomable-screen {
   opacity: 0.5;
 }
 
-img.zoomable {
+img.flickr-zoom {
   cursor: zoom-in;
 }
 
-img.zoomable.zoomed {
+img.flickr-zoom.zoomed {
   cursor: zoom-out;
 
   z-index: 10001;
@@ -29,6 +29,6 @@ img.zoomable.zoomed {
   max-width: none;
 }
 
-img.zoomable.zoomed.smooth-panning {
+img.flickr-zoom.zoomed.smooth-panning {
   transition: top 0.4s ease-out, left 0.4s ease-out;
 }
