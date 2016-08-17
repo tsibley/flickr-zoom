@@ -1,0 +1,25 @@
+{
+  "name": "flickr-zoom",
+  "main": "flickr-zoom.js",
+  "version": "1.0.0",
+  "authors": [
+    "Thomas Sibley <www+flickr-zoom@zulutango.org>"
+  ],
+  "description": "Flickr-style “fullscreen” (full viewport) click-to-zoom, mouse-to-pan for your own <img> tags",
+  "keywords": [
+    "zoom",
+    "flickr",
+    "zoomable",
+    "pan",
+    "vanilla"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/tsibley/flickr-zoom",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
