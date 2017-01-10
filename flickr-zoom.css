@@ -28,7 +28,3 @@ img.flickr-zoom.zoomed {
   border: none;
   max-width: none;
 }
-
-img.flickr-zoom.zoomed.smooth-panning {
-  transition: top 0.4s ease-out, left 0.4s ease-out;
-}

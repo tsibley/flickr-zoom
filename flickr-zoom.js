@@ -52,14 +52,7 @@
 
       var called = 0;
       state.pan = function(mouseEvent) {
-        // On the first pan we want to snap the image into place, but on
-        // subsequent pans we want to transition the pan smoothly.  We
-        // only need to add the class once, on the second call.
-        if (++called === 2)
-          state.zoomed.classList.add('smooth-panning');
-
-        state.zoomed.style.left = mouseEvent.clientX * scaleX + "px";
-        state.zoomed.style.top  = mouseEvent.clientY * scaleY + "px";
+        state.zoomed.style.transform = "translate(" + mouseEvent.clientX * scaleX + "px, " + mouseEvent.clientY * scaleY + "px)";
       };
 
       // Pan to match initial click position…
