@@ -1,4 +1,4 @@
-(function(window, document){
+document.addEventListener("DOMContentLoaded", function() {
   'use strict';
 
   function initialState() {
@@ -15,7 +15,6 @@
   var state = initialState();
 
   window.addEventListener('click', function(clickEvent) {
-
     // Ignore clicks not on img.flickr-zoom elements
     var target = clickEvent.target;
     if (target.nodeName.toLowerCase() !== "img") return;
@@ -42,15 +41,8 @@
       state.zoomed.setAttribute("width",  naturalW);
       state.zoomed.setAttribute("height", naturalH);
 
-      // Convert current mouse position within viewport to coordinates within
-      // the zoomed image (includes padding).  This essentially calculates how
-      // many pixels of zoomed image to move for each viewport pixel moved.
-      var zoomW  = state.zoomed.offsetWidth,
-          zoomH  = state.zoomed.offsetHeight,
-          scaleX = -1 / screenW * (zoomW - screenW),
-          scaleY = -1 / screenH * (zoomH - screenH);
-
-      var called = 0;
+      var called = 0,
+          initialPanSetTimeoutId;
       state.pan = function(mouseEvent) {
         // On the first pan we want to snap the image into place, but on
         // subsequent pans we want to transition the pan smoothly.  We
@@ -58,12 +50,31 @@
         if (++called === 2)
           state.zoomed.classList.add('smooth-panning');
 
+        // Convert current mouse position within viewport to coordinates within
+        // the zoomed image (includes padding).  This essentially calculates how
+        // many pixels of zoomed image to move for each viewport pixel moved.
+        // This needs to be done on every mouse move event due to the
+        // possibility of offsetWidth/offsetHeight being initialized with
+        // incorrect values.
+        var zoomW  = state.zoomed.offsetWidth,
+            zoomH  = state.zoomed.offsetHeight,
+            scaleX = -1 / screenW * (zoomW - screenW),
+            scaleY = -1 / screenH * (zoomH - screenH);
+
         state.zoomed.style.left = mouseEvent.clientX * scaleX + "px";
         state.zoomed.style.top  = mouseEvent.clientY * scaleY + "px";
       };
 
-      // Pan to match initial click position…
-      state.pan(clickEvent);
+      // Pan to match initial click position.
+      // Retry until offsetWidth/offsetHeight are correct because they might not be initialized immediately
+      // with proper values.
+      (function panToInitialClickPosition() {
+        if (state.zoomed.offsetWidth < naturalW && state.zoomed.offsetHeight < naturalH) {
+          initialPanSetTimeoutId = setTimeout(panToInitialClickPosition, 0);
+        } else {
+          state.pan(clickEvent);
+        }
+      })()
 
       // …and then on any subsequent mouse movement, unless we're smaller
       // than the viewport.
@@ -71,8 +82,9 @@
         window.addEventListener('mousemove', state.pan, false);
     }
     else {
-      // Remove listener and remove cloned image, reseting our state
+      // Remove listener, possible setTimeout event and remove cloned image, reseting our state
       window.removeEventListener('mousemove', state.pan, false);
+      clearTimeout(initialPanSetTimeoutId);
       state.zoomed.parentNode.removeChild(state.zoomed);
       state.screen.parentNode.removeChild(state.screen);
       state = initialState();
@@ -80,4 +92,4 @@
 
   }, false);
 
-})(window, document);
+});
