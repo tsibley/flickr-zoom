@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     clickEvent.preventDefault();
 
+    var initialPanSetTimeoutId;
+
     // Viewport dimensions may change between clicks, so fetch them each time.
     var screenW = document.documentElement.clientWidth,
         screenH = document.documentElement.clientHeight;
@@ -32,17 +34,29 @@ document.addEventListener("DOMContentLoaded", function() {
       state.zoomed = target.cloneNode(false);
       state.zoomed.removeAttribute("id");
       state.zoomed.classList.add('zoomed');
+      state.zoomed.addEventListener("load", panAndZoom)
       document.body.appendChild(state.zoomed);
       document.body.appendChild(state.screen);
 
+    }
+    else {
+      // Remove listener, possible setTimeout event and remove cloned image, reseting our state
+      window.removeEventListener('mousemove', state.pan, false);
+      clearTimeout(initialPanSetTimeoutId);
+      state.zoomed.removeEventListener("load", panAndZoom);
+      state.zoomed.parentNode.removeChild(state.zoomed);
+      state.screen.parentNode.removeChild(state.screen);
+      state = initialState();
+    }
+
+    function panAndZoom() {
       var naturalW = state.zoomed.naturalWidth,
           naturalH = state.zoomed.naturalHeight;
 
       state.zoomed.setAttribute("width",  naturalW);
       state.zoomed.setAttribute("height", naturalH);
 
-      var called = 0,
-          initialPanSetTimeoutId;
+      var called = 0;
       state.pan = function(mouseEvent) {
         // On the first pan we want to snap the image into place, but on
         // subsequent pans we want to transition the pan smoothly.  We
@@ -80,14 +94,6 @@ document.addEventListener("DOMContentLoaded", function() {
       // than the viewport.
       if (naturalW > screenW || naturalH > screenH)
         window.addEventListener('mousemove', state.pan, false);
-    }
-    else {
-      // Remove listener, possible setTimeout event and remove cloned image, reseting our state
-      window.removeEventListener('mousemove', state.pan, false);
-      clearTimeout(initialPanSetTimeoutId);
-      state.zoomed.parentNode.removeChild(state.zoomed);
-      state.screen.parentNode.removeChild(state.screen);
-      state = initialState();
     }
 
   }, false);
