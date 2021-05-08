@@ -75,8 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
             scaleX = -1 / screenW * (zoomW - screenW),
             scaleY = -1 / screenH * (zoomH - screenH);
 
-        state.zoomed.style.left = mouseEvent.clientX * scaleX + "px";
-        state.zoomed.style.top  = mouseEvent.clientY * scaleY + "px";
+        state.zoomed.style.transform = "translate(" + mouseEvent.clientX * scaleX + "px, " + mouseEvent.clientY * scaleY + "px)";
       };
 
       // Pan to match initial click position.

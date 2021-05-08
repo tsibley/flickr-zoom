@@ -30,5 +30,5 @@ img.flickr-zoom.zoomed {
 }
 
 img.flickr-zoom.zoomed.smooth-panning {
-  transition: top 0.4s ease-out, left 0.4s ease-out;
+  transition: transform .4s ease-out;
 }
