@@ -1,7 +1,7 @@
 {
   "name": "flickr-zoom",
   "main": "flickr-zoom.js",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "authors": [
     "Thomas Sibley <www+flickr-zoom@zulutango.org>"
   ],
