@@ -1,3 +1,7 @@
+body.flickr-zoom.zoomed {
+  overflow: hidden !important;
+}
+
 div.flickr-zoom-screen {
   z-index: 10000;
   position: fixed;
