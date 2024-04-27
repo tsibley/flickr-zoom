@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     else {
       // Remove listener, possible setTimeout event and remove cloned image, reseting our state
-      window.removeEventListener('mousemove', state.pan, false);
+      window.removeEventListener('mousemove', state.pan, {passive: true});
       clearTimeout(initialPanSetTimeoutId);
       state.zoomed.removeEventListener("load", panAndZoom);
       state.zoomed.parentNode.removeChild(state.zoomed);
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
       state.zoomed.setAttribute("height", naturalH);
 
       var called = 0;
-      state.pan = function(mouseEvent) {
+      state.pan = debounce(function(mouseEvent) {
         // On the first pan we want to snap the image into place, but on
         // subsequent pans we want to transition the pan smoothly.  We
         // only need to add the class once, on the second call.
@@ -73,10 +73,12 @@ document.addEventListener("DOMContentLoaded", function() {
         var zoomW  = state.zoomed.offsetWidth,
             zoomH  = state.zoomed.offsetHeight,
             scaleX = -1 / screenW * (zoomW - screenW),
-            scaleY = -1 / screenH * (zoomH - screenH);
+            scaleY = -1 / screenH * (zoomH - screenH),
+            translateX = mouseEvent.clientX * scaleX,
+            translateY = mouseEvent.clientY * scaleY;
 
-        state.zoomed.style.transform = "translate(" + mouseEvent.clientX * scaleX + "px, " + mouseEvent.clientY * scaleY + "px)";
-      };
+        state.zoomed.style.transform = "translate(" +translateX + "px, " + translateY + "px)";
+      }, 5);
 
       // Pan to match initial click position.
       // Retry until offsetWidth/offsetHeight are correct because they might not be initialized immediately
@@ -92,9 +94,21 @@ document.addEventListener("DOMContentLoaded", function() {
       // …and then on any subsequent mouse movement, unless we're smaller
       // than the viewport.
       if (naturalW > screenW || naturalH > screenH)
-        window.addEventListener('mousemove', state.pan, false);
+        window.addEventListener('mousemove', state.pan, {passive: true});
     }
 
   }, false);
 
 });
+
+function debounce(fn, timeoutInMillis) {
+  var debounceTimeoutId;
+  return function() {
+    var args = arguments;
+    clearTimeout(debounceTimeoutId);
+    debounceTimeoutId = setTimeout(function() {
+      fn.apply(this, args);
+      debounceTimeoutId = undefined;
+    }, timeoutInMillis);
+  }
+}
