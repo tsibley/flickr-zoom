@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Ignore clicks not on img.flickr-zoom elements
     var target = clickEvent.target;
     if (target.nodeName.toLowerCase() !== "img") return;
-    if (!target.classList.contains("flickr-zoom"))  return;
+    if (!target.classList.contains("flickr-zoom")) return;
 
     clickEvent.preventDefault();
 
@@ -62,8 +62,9 @@ document.addEventListener("DOMContentLoaded", function() {
         // On the first pan we want to snap the image into place, but on
         // subsequent pans we want to transition the pan smoothly.  We
         // only need to add the class once, on the second call.
-        if (++called === 2)
+        if (++called === 2) {
           state.zoomed.classList.add("smooth-panning");
+        }
 
         // Convert current mouse position within viewport to coordinates within
         // the zoomed image (includes padding).  This essentially calculates how
@@ -94,12 +95,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // …and then on any subsequent mouse movement, unless we're smaller
       // than the viewport.
-      if (naturalW > screenW || naturalH > screenH)
+      if (naturalW > screenW || naturalH > screenH) {
         window.addEventListener("mousemove", state.pan, {passive: true});
+      }
     }
-
   }, false);
-
 });
 
 function debounce(fn, timeoutInMillis) {
