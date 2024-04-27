@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", function() {
   function initialState() {
     var screen = document.createElement("div");
     screen.classList.add("flickr-zoom-screen");
+    var screenLoader = document.createElement("div");
+    screenLoader.classList.add("flickr-zoom-screen-loader");
+    screen.appendChild(screenLoader);
 
     return {
       screen: screen,
@@ -34,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
       // remove possible responsive image tags to allow zooming of full size image.
       state.zoomed = document.createElement("img");
       state.zoomed.setAttribute("src", target.getAttribute("src"));
-      state.zoomed.classList.add("flickr-zoom", "zoomed");
+      state.zoomed.classList.add("flickr-zoom", "zoomed", "loading");
       state.zoomed.addEventListener("load", panAndZoom);
       document.body.appendChild(state.zoomed);
       document.body.appendChild(state.screen);
@@ -57,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       state.zoomed.setAttribute("width",  naturalW);
       state.zoomed.setAttribute("height", naturalH);
+      state.zoomed.classList.remove("loading");
 
       var called = 0;
       state.pan = debounce(function(mouseEvent) {
