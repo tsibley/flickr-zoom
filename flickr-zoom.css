@@ -17,7 +17,7 @@ div.flickr-zoom-screen {
 }
 
 .flickr-zoom-screen-loader {
-  color: #849b87
+  color: var(--flickr-zoom-screen-loader-color, #849b87);
 }
 
 .flickr-zoom-screen-loader,
