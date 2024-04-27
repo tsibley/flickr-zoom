@@ -86,19 +86,21 @@ document.addEventListener("DOMContentLoaded", function() {
       // Pan to match initial click position.
       // Retry until offsetWidth/offsetHeight are correct because they might not be initialized immediately
       // with proper values.
-      (function panToInitialClickPosition() {
+      function panToInitialClickPosition() {
         if (state.zoomed.offsetWidth < naturalW && state.zoomed.offsetHeight < naturalH) {
           initialPanSetTimeoutId = setTimeout(panToInitialClickPosition, 0);
         } else {
           state.pan(clickEvent);
-        }
-      })()
 
-      // …and then on any subsequent mouse movement, unless we're smaller
-      // than the viewport.
-      if (naturalW > screenW || naturalH > screenH) {
-        window.addEventListener("mousemove", state.pan, {passive: true});
+          // …and then on any subsequent mouse movement, unless we're smaller
+          // than the viewport.
+          if (naturalW > screenW || naturalH > screenH) {
+            window.addEventListener("mousemove", state.pan, {passive: true});
+          }
+        }
       }
+
+      panToInitialClickPosition();
     }
   }, false);
 });
