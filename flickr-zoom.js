@@ -29,12 +29,13 @@ document.addEventListener("DOMContentLoaded", function() {
         screenH = document.documentElement.clientHeight;
 
     if (!state.zoomed) {
-      // Clone the image so the page layout doesn't change when we zoom.
-      // We nullify any element id to prevent duplicates.
-      state.zoomed = target.cloneNode(false);
-      state.zoomed.removeAttribute("id");
-      state.zoomed.classList.add("zoomed");
-      state.zoomed.addEventListener("load", panAndZoom)
+      // Create a new image tag so the page layout doesn't change when we zoom.
+      // We nullify any element attributes to prevent original styles from applying and
+      // remove possible responsive image tags to allow zooming of full size image.
+      state.zoomed = document.createElement("img");
+      state.zoomed.setAttribute("src", target.getAttribute("src"));
+      state.zoomed.classList.add("flickr-zoom", "zoomed");
+      state.zoomed.addEventListener("load", panAndZoom);
       document.body.appendChild(state.zoomed);
       document.body.appendChild(state.screen);
       document.body.classList.add("flickr-zoom", "zoomed");
