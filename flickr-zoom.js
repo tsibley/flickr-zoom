@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
-  'use strict';
+  "use strict";
 
   function initialState() {
-    var screen = document.createElement('div');
-    screen.classList.add('flickr-zoom-screen');
+    var screen = document.createElement("div");
+    screen.classList.add("flickr-zoom-screen");
 
     return {
       screen: screen,
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   var state = initialState();
 
-  window.addEventListener('click', function(clickEvent) {
+  window.addEventListener("click", function(clickEvent) {
     // Ignore clicks not on img.flickr-zoom elements
     var target = clickEvent.target;
     if (target.nodeName.toLowerCase() !== "img") return;
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
       // We nullify any element id to prevent duplicates.
       state.zoomed = target.cloneNode(false);
       state.zoomed.removeAttribute("id");
-      state.zoomed.classList.add('zoomed');
+      state.zoomed.classList.add("zoomed");
       state.zoomed.addEventListener("load", panAndZoom)
       document.body.appendChild(state.zoomed);
       document.body.appendChild(state.screen);
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     else {
       // Remove listener, possible setTimeout event and remove cloned image, reseting our state
-      window.removeEventListener('mousemove', state.pan, {passive: true});
+      window.removeEventListener("mousemove", state.pan, {passive: true});
       clearTimeout(initialPanSetTimeoutId);
       state.zoomed.removeEventListener("load", panAndZoom);
       state.zoomed.parentNode.removeChild(state.zoomed);
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // subsequent pans we want to transition the pan smoothly.  We
         // only need to add the class once, on the second call.
         if (++called === 2)
-          state.zoomed.classList.add('smooth-panning');
+          state.zoomed.classList.add("smooth-panning");
 
         // Convert current mouse position within viewport to coordinates within
         // the zoomed image (includes padding).  This essentially calculates how
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
       // …and then on any subsequent mouse movement, unless we're smaller
       // than the viewport.
       if (naturalW > screenW || naturalH > screenH)
-        window.addEventListener('mousemove', state.pan, {passive: true});
+        window.addEventListener("mousemove", state.pan, {passive: true});
     }
 
   }, false);
