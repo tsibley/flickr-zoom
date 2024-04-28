@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
       state.zoomed.classList.remove("loading");
 
       var called = 0;
-      state.pan = debounce(function(mouseEvent) {
+      state.pan = throttle(function(mouseEvent) {
         // On the first pan we want to snap the image into place, but on
         // subsequent pans we want to transition the pan smoothly.  We
         // only need to add the class once, on the second call.
@@ -84,8 +84,8 @@ document.addEventListener("DOMContentLoaded", function() {
             translateX = mouseEvent.clientX * scaleX,
             translateY = mouseEvent.clientY * scaleY;
 
-        state.zoomed.style.transform = "translate(" +translateX + "px, " + translateY + "px)";
-      }, 5);
+        state.zoomed.style.transform = "translate3d(" +translateX + "px, " + translateY + "px, 0)";
+      }, 10);
 
       // Pan to match initial click position.
       // Retry until offsetWidth/offsetHeight are correct because they might not be initialized immediately
@@ -109,14 +109,16 @@ document.addEventListener("DOMContentLoaded", function() {
   }, false);
 });
 
-function debounce(fn, timeoutInMillis) {
-  var debounceTimeoutId;
+function throttle(fn, timeoutInMillis) {
+  var throttleTimeoutId;
   return function() {
-    var args = arguments;
-    clearTimeout(debounceTimeoutId);
-    debounceTimeoutId = setTimeout(function() {
+    if (!throttleTimeoutId) {
+      var args = arguments;
       fn.apply(this, args);
-      debounceTimeoutId = undefined;
-    }, timeoutInMillis);
+      throttleTimeoutId = setTimeout(function() {
+        fn.apply(this, args);
+        throttleTimeoutId = undefined;
+      }, timeoutInMillis);
+    }
   }
 }
