@@ -56,14 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
       state.zoomed.setAttribute("width",  naturalW);
       state.zoomed.setAttribute("height", naturalH);
 
-      var called = 0;
       state.pan = function(mouseEvent) {
-        // On the first pan we want to snap the image into place, but on
-        // subsequent pans we want to transition the pan smoothly.  We
-        // only need to add the class once, on the second call.
-        if (++called === 2)
-          state.zoomed.classList.add('smooth-panning');
-
         // Convert current mouse position within viewport to coordinates within
         // the zoomed image (includes padding).  This essentially calculates how
         // many pixels of zoomed image to move for each viewport pixel moved.
