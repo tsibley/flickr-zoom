@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
       state.zoomed.addEventListener("load", panAndZoom)
       document.body.appendChild(state.zoomed);
       document.body.appendChild(state.screen);
-
+      document.body.classList.add("flickr-zoom", "zoomed");
     }
     else {
       // Remove listener, possible setTimeout event and remove cloned image, reseting our state
@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
       state.zoomed.removeEventListener("load", panAndZoom);
       state.zoomed.parentNode.removeChild(state.zoomed);
       state.screen.parentNode.removeChild(state.screen);
+      document.body.classList.remove("flickr-zoom", "zoomed");
       state = initialState();
     }
 
