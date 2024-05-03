@@ -5,16 +5,32 @@
     <link rel="stylesheet" type="text/css" href="flickr-zoom.css">
     <script type="text/javascript" src="flickr-zoom.js"></script>
     <style>
-      img {
+      figure {
         display: block;
         width: 90dvw;
         margin: 5dvw auto;
       }
+      img {
+        width: 100%;
+        height: auto;
+      }
+      figcaption {
+        display: flex;
+      }
+      figcaption > span:first-child {
+        flex: 1;
+      }
     </style>
   </head>
   <body>
-    <img src="https://live.staticflickr.com/65535/52065769339_9d8631ad92_6k_d.jpg"
-      alt="Western flank of Mount Si"
-      class="flickr-zoom">
+    <figure>
+      <img src="https://live.staticflickr.com/65535/52065769339_9d8631ad92_6k_d.jpg"
+        alt="Western flank of Mount Si"
+        class="flickr-zoom">
+      <figcaption>
+        <span><a href="https://www.flickr.com/photos/trs/52065769339/">Western flank of Mount Si</a></span>
+        <span>© <a href="https://tsibley.net">Thomas Sibley</a></span>
+      </figcaption>
+    </figure>
   </body>
 </html>
